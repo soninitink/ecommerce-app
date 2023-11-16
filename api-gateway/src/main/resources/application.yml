@@ -1,0 +1,28 @@
+server:
+  port: 8080
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: customer_route
+          uri: http://localhost:8083 # Target service URL
+          predicates:
+            - Path=/customers/** # Incoming URL pattern
+        - id: order_route
+          uri: http://localhost:8082 # Target service URL
+          predicates:
+            - Path=/orders/** # Incoming URL pattern
+        - id: product_route
+          uri: http://localhost:8081 # Target service URL
+          predicates:
+            - Path=/products/** # Incoming URL pattern
